@@ -19,7 +19,8 @@ class AnxietyExposureWindow:
         self.scrollbar = tkinter.Scrollbar(self.scrollbar_frame, orient=tkinter.VERTICAL)
 
         self.listbox = tkinter.Listbox(self.scrollbar_frame, width=55,
-                                       yscrollcommand=self.scrollbar.set, selectmode=tkinter.SINGLE, font=("TkFixedFont", 10))
+                                       yscrollcommand=self.scrollbar.set, selectmode=tkinter.SINGLE,
+                                       font=("TkFixedFont", 10))
         self.scrollbar.config(command=self.listbox.yview)
         self.scrollbar.pack(side=tkinter.RIGHT, fill=tkinter.Y)
 
@@ -35,7 +36,7 @@ class AnxietyExposureWindow:
         self.edit_button = tkinter.Button(self.buttons_frame, text="Edit", width=10)
         self.edit_button.pack(padx=30, side=tkinter.LEFT)
 
-        self.add_button = tkinter.Button(self.buttons_frame, text="Add", width=10, command=lambda: AddWindow())
+        self.add_button = tkinter.Button(self.buttons_frame, text="Add", width=10, command=self.add_button)
         self.add_button.pack(padx=30, side=tkinter.LEFT)
 
         self.delete_button = tkinter.Button(self.buttons_frame, text="Delete", width=10)
@@ -49,6 +50,10 @@ class AnxietyExposureWindow:
 
         self.refresh_list()
 
+    def add_button(self):
+        AddWindow()
+        self.refresh_list()
+
     def refresh_list(self):
         self.listbox.delete(0, tkinter.END)
 
@@ -59,8 +64,8 @@ class AnxietyExposureWindow:
             description = parts[0]
             difficulty = parts[1]
             performed_num = parts[2]
-            self.listbox.insert(tkinter.END, f"{description:_<30} | Challenge: [{difficulty:^3}] Wins: [{performed_num:^3}]")
-
+            self.listbox.insert(tkinter.END,
+                                f"{description:<30} | Challenge: [{difficulty:^3}] Wins: [{performed_num:^3}]")
 
     def start(self):
         self.window.mainloop()
@@ -124,5 +129,6 @@ class AddWindow:
     def close(self):
         self.window.destroy()
         del self
+
 
 AnxietyExposureWindow().start()
